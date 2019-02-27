@@ -53,8 +53,10 @@ class Parser(ShellParser):
         temp_dir = mkdtemp()
         base = os.path.join(temp_dir, 'conv')
         contents = []
+        # convert -density 300 $1.pdf -depth 8 -strip -background white -alpha off $1-%03d.tiff
         try:
-            stdout, _ = self.run(['pdftoppm', filename, base])
+            stdout, _ = self.run(['convert', '-density','300', filename, "-depth","8","-strip", 
+                                  '-background','white','-alpha','off', base+"-%03d.tiff"])
 
             for page in sorted(os.listdir(temp_dir)):
                 page_path = os.path.join(temp_dir, page)
